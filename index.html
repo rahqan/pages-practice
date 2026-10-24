@@ -53,7 +53,9 @@ body{margin:0;background:var(--sbg);
 .formwrap h2{font:500 1.4rem/1.15 var(--disp)}
 .phone label{display:block;font-size:.64rem;letter-spacing:.2em;text-transform:uppercase;margin-top:14px;color:var(--mute)}
 .phone .formwrap input,.phone .formwrap textarea{background:transparent;border:0;border-bottom:1px solid var(--ink);padding:8px 0}
-.go{margin-top:22px;width:100%;background:var(--btn);color:var(--btnfg);border:0;padding:14px;letter-spacing:.2em;text-transform:uppercase;font-size:.74rem;font-weight:500;border-radius:var(--r)}
+.note{margin-top:16px;font-size:.76rem;color:var(--mute)}
+.go:disabled{opacity:.6}
+.go{margin-top:12px;width:100%;background:var(--btn);color:var(--btnfg);border:0;padding:14px;letter-spacing:.2em;text-transform:uppercase;font-size:.74rem;font-weight:500;border-radius:var(--r)}
 .ok{margin-top:12px;padding:12px;border:1px solid var(--ink);font-size:.85rem}
 .foot{text-align:center;padding:30px 24px 32px;font-size:.82rem;color:var(--mute)}
 .foot b{display:block;color:var(--ink);font-weight:500;letter-spacing:.2em;text-transform:uppercase;margin-bottom:4px}
@@ -71,7 +73,7 @@ var CATS=[
  {t:'Cardboard boxes',d:'Strong cartons, made in large runs.',o:['Corrugated cartons','Shipping boxes','Garment boxes','Printed cartons'],p:[]},
  {t:'Printed and covered',d:'Paper-wrapped and printed, with plastic covering where needed.',o:['Paper wrapped','Printed','Plastic covered','Matt finish','Gloss finish'],p:[]}
 ];
-var N=6,MAIL='sales@boxconnectmfg.co.in',reduce=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
+var N=6,MAIL='sales@boxconnectmfg.co.in',FORM_KEY='b50f809a-79a2-4024-bc23-03e66bcabaf8',reduce=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
 function piece(i,j){return CATS[i].p[j]||null}
 function layer(i,j){var p=piece(i,j),c=CATS[i];
  return '<div class="sl'+(i===0&&j===0?' act':'')+'" data-i="'+i+'" data-j="'+j+'">'+(p?'<img class="la" src="'+p.a+'" alt="'+c.t+(p.b?', closed':'')+'">'+(p.b?'<img class="lb" src="'+p.b+'" alt="'+c.t+', open">':''):'<span class="soonlbl">Photo coming</span>')+'</div>'}
@@ -86,15 +88,24 @@ P.innerHTML='<div class="hero"><div class="kick">Box Connect Mfg · Bhiwandi</di
  '<div class="formwrap"><h2>Write to us</h2><form id="f" novalidate>'+
  '<label for="n">Name</label><input id="n" autocomplete="name"><label for="e">Email</label><input id="e" type="email" autocomplete="email">'+
  '<label for="c">Company</label><input id="c" autocomplete="organization"><label for="m">What are you packing?</label><textarea id="m" rows="3"></textarea>'+
- '<input class="hp" id="w" tabindex="-1" aria-hidden="true" autocomplete="off"><button class="go" type="submit">Send enquiry</button><div class="ok" id="ok" hidden></div></form></div>'+
+ '<input class="hp" id="w" tabindex="-1" aria-hidden="true" autocomplete="off"><p class="note">We use your details only to reply to this enquiry.</p><button class="go" type="submit">Send enquiry</button><div class="ok" id="ok" hidden></div></form></div>'+
  '<div class="foot"><b>Box Connect Mfg</b>Bhiwandi, Maharashtra<br>'+MAIL+'<br>Made on order</div>';
 document.getElementById('out').appendChild(P);
 
 /* form */
 document.getElementById('f').addEventListener('submit',function(e){
- e.preventDefault();var ok=document.getElementById('ok');if(document.getElementById('w').value)return;
- var n=document.getElementById('n').value.trim(),m=document.getElementById('e').value.trim();
- ok.textContent=(n&&/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(m))?'Preview only. On the live site this goes to '+MAIL+'. Thank you, '+n+'.':'Please add your name and a valid email.';ok.hidden=false;
+ e.preventDefault();var f=this,ok=document.getElementById('ok'),btn=f.querySelector('.go');if(document.getElementById('w').value)return;
+ var n=document.getElementById('n').value.trim(),m=document.getElementById('e').value.trim(),
+     c=document.getElementById('c').value.trim(),msg=document.getElementById('m').value.trim();
+ if(!(n&&/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(m))){ok.textContent='Please add your name and a valid email.';ok.hidden=false;return}
+ btn.disabled=true;btn.textContent='Sending';
+ fetch('https://api.web3forms.com/submit',{method:'POST',headers:{'Content-Type':'application/json',Accept:'application/json'},
+  body:JSON.stringify({access_key:FORM_KEY,subject:'Website enquiry from '+n,from_name:'Box Connect website',name:n,email:m,company:c,message:msg})})
+ .then(function(r){return r.json()}).then(function(d){
+  if(!d.success)throw 0;
+  ok.textContent='Thank you, '+n+'. We will reply to '+m+'.';f.reset();
+ }).catch(function(){ok.textContent='Sorry, that did not send. Please email us at '+MAIL+'.'})
+ .then(function(){btn.disabled=false;btn.textContent='Send enquiry';ok.hidden=false});
 });
 /* hero video: plays once when seen, tap to replay */
 var vid=document.getElementById('vid'),hv=document.getElementById('hv'),vp=document.getElementById('vp');
