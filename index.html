@@ -1,0 +1,139 @@
+<meta charset="utf-8">
+<title>Box Connect Mfg</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,wght@0,500;1,500&family=Jost:wght@400;500&display=swap">
+<style>
+/* Scroll story: hero video, then a photo that stays put while the category list scrolls past it. Each category carries a strip of its pieces. */
+:root{--sbg:#101214;color-scheme:dark}
+*{box-sizing:border-box}
+body{margin:0;background:var(--sbg);
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:12px 40px}
+.phone{--bg:#F2F0EC;--ink:#1D1618;--mute:#6C6366;--acc:#6B1F34;--line:#DAD5CF;--btn:#6B1F34;--btnfg:#FFFFFF;--r:12px;--soon:#DDD8D1;--disp:'Bodoni Moda',serif;--body:'Jost',sans-serif;
+  width:min(100%,390px);margin:0 auto;border-radius:30px;overflow:hidden;overflow:clip;border:1px solid #333;position:relative;background:var(--bg);color:var(--ink);font:400 15px/1.55 var(--body)}
+.phone *{min-width:0;box-sizing:border-box}
+.phone h1,.phone h2,.phone h3,.phone p{margin:0}
+.phone input,.phone textarea{font:inherit;width:100%;color:inherit;border-radius:0}
+.phone button{font:inherit;cursor:pointer}
+.phone :focus-visible{outline:3px solid currentColor;outline-offset:2px}
+.hp{position:absolute;left:-9999px}
+.kick{font-size:.66rem;letter-spacing:.28em;text-transform:uppercase;color:var(--acc)}
+.hero{padding:36px 22px 0;text-align:center}
+.hero h1{font:italic 500 2.1rem/1.12 var(--disp);margin-top:12px;text-wrap:balance}
+.vid{position:relative;width:100%;margin:24px 0 0;border-radius:var(--r);overflow:hidden;aspect-ratio:1024/688;background:var(--soon);cursor:pointer}
+.vid video{display:block;width:100%;height:100%;object-fit:cover}
+.vplay{position:absolute;left:50%;bottom:14px;transform:translateX(-50%);background:rgba(246,240,236,.92);color:var(--acc);border:0;border-radius:99px;padding:9px 18px;letter-spacing:.16em;text-transform:uppercase;font-size:.64rem;font-weight:500;transition:opacity .4s}
+.vid.playing .vplay{opacity:0;pointer-events:none}
+
+.story{position:relative;margin-top:30px}
+.stage{position:sticky;top:calc(env(safe-area-inset-top,0px) + 8px);z-index:5;background:var(--bg);padding:8px 0 12px;display:grid;justify-items:center;gap:8px}
+.stack{position:relative;width:60%;aspect-ratio:4/5;border-radius:12px;overflow:hidden;box-shadow:0 18px 24px -10px rgba(29,22,24,.4);background:var(--soon);cursor:pointer}
+.sl{position:absolute;inset:0;opacity:0;visibility:hidden;transition:opacity .45s,visibility 0s linear .45s}
+.sl.act{opacity:1;visibility:visible;transition:opacity .45s,visibility 0s}
+.sl img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:opacity .8s}
+.sl .lb{opacity:0}
+.stack.on .sl.act .lb{opacity:1}
+.soonlbl{position:absolute;inset:0;display:grid;place-items:center;text-align:center;padding:10px;font-size:.62rem;letter-spacing:.22em;text-transform:uppercase;color:var(--mute)}
+.stagehint{font-size:.64rem;letter-spacing:.18em;text-transform:uppercase;color:var(--mute);min-height:1.2em}
+.srow{min-height:50vh;padding:26px 28px;display:flex;flex-direction:column;justify-content:center;gap:8px;opacity:.3;transition:opacity .4s}
+.srow.act{opacity:1}
+.srow h3{font:italic 500 2rem/1.05 var(--disp)}
+.srow .d{color:var(--mute);font-size:.92rem}
+.srow .ol{color:var(--mute);font-size:.86rem;line-height:1.7}
+.strip{display:flex;gap:8px;overflow-x:auto;margin:8px -28px 0;padding:3px 28px 6px;scrollbar-width:none;scroll-padding-left:28px}
+.strip::-webkit-scrollbar{display:none}
+.th{flex:0 0 66px;aspect-ratio:4/5;border-radius:8px;border:2px solid transparent;padding:0;overflow:hidden;background:var(--soon);position:relative;scroll-snap-align:start}
+.th img{display:block;width:100%;height:100%;object-fit:cover}
+.th[aria-current="true"]{border-color:var(--det,var(--acc))}
+.cnt{font-size:.64rem;letter-spacing:.18em;text-transform:uppercase;color:var(--mute)}
+.lk{background:none;border:0;padding:4px 0;color:var(--acc);text-decoration:underline;text-underline-offset:3px;font-size:.86rem;text-align:left;align-self:flex-start}
+
+.formwrap{padding:34px 24px 0}
+.formwrap h2{font:500 1.4rem/1.15 var(--disp)}
+.phone label{display:block;font-size:.64rem;letter-spacing:.2em;text-transform:uppercase;margin-top:14px;color:var(--mute)}
+.phone .formwrap input,.phone .formwrap textarea{background:transparent;border:0;border-bottom:1px solid var(--ink);padding:8px 0}
+.go{margin-top:22px;width:100%;background:var(--btn);color:var(--btnfg);border:0;padding:14px;letter-spacing:.2em;text-transform:uppercase;font-size:.74rem;font-weight:500;border-radius:var(--r)}
+.ok{margin-top:12px;padding:12px;border:1px solid var(--ink);font-size:.85rem}
+.foot{text-align:center;padding:30px 24px 32px;font-size:.82rem;color:var(--mute)}
+.foot b{display:block;color:var(--ink);font-weight:500;letter-spacing:.2em;text-transform:uppercase;margin-bottom:4px}
+@media (prefers-reduced-motion:reduce){.sl,.sl img,.srow,.vplay{transition:none}}
+</style>
+
+<div id="out"></div>
+
+<script>
+var CATS=[
+ {t:'MDF boxes',d:'Rigid boxes for luxury retail.',o:['Lid and base','Hinged lid','Drawer style','Magnetic closure'],p:[{a:'assets/t1c.jpg',b:'assets/t1o.jpg'}]},
+ {t:'Premium boxes',d:'Gift and presentation boxes where the finish matters.',o:['Rigid gift box','Ribbon tied','Foil stamped','Sleeve and tray'],p:[{a:'assets/t2c.jpg',b:'assets/t2o.jpg'}]},
+ {t:'Jewellery boxes',d:'Rings, sets and watches, held the way they deserve.',o:['Ring box','Necklace box','Earring box','Watch box','Full set box'],p:[]},
+ {t:'Display props',d:'Busts and stands for showrooms.',o:['Busts','Necklace stands','Ring and earring stands','Counter trays','Window pieces'],p:[]},
+ {t:'Cardboard boxes',d:'Strong cartons, made in large runs.',o:['Corrugated cartons','Shipping boxes','Garment boxes','Printed cartons'],p:[]},
+ {t:'Printed and covered',d:'Paper-wrapped and printed, with plastic covering where needed.',o:['Paper wrapped','Printed','Plastic covered','Matt finish','Gloss finish'],p:[]}
+];
+var N=6,MAIL='sales@boxconnectmfg.co.in',reduce=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
+function piece(i,j){return CATS[i].p[j]||null}
+function layer(i,j){var p=piece(i,j),c=CATS[i];
+ return '<div class="sl'+(i===0&&j===0?' act':'')+'" data-i="'+i+'" data-j="'+j+'">'+(p?'<img class="la" src="'+p.a+'" alt="'+c.t+', closed"><img class="lb" src="'+p.b+'" alt="'+c.t+', open">':'<span class="soonlbl">Photo coming</span>')+'</div>'}
+var layers='';CATS.forEach(function(c,i){for(var j=0;j<N;j++)layers+=layer(i,j)});
+function row(c,i){
+ var th='';for(var j=0;j<N;j++){var p=piece(i,j);th+='<button class="th" type="button" data-j="'+j+'" aria-label="'+c.t+', piece '+(j+1)+'"'+(j===0?' aria-current="true"':'')+'>'+(p?'<img src="'+p.a+'" alt="">':'')+'</button>'}
+ return '<section class="srow'+(i?'':' act')+'" data-i="'+i+'"><h3>'+c.t+'</h3><p class="d">'+c.d+'</p><div class="strip">'+th+'</div><p class="cnt">Tap a piece to see it above</p><p class="ol">'+c.o.join(' · ')+'</p><button class="lk" type="button">Enquire about this</button></section>';
+}
+var P=document.createElement('div');P.className='phone';
+P.innerHTML='<div class="hero"><div class="kick">Box Connect Mfg · Bhiwandi</div><h1>Packaging for pieces worth showing.</h1><div class="vid" id="vid"><video id="hv" src="assets/hero.mp4" poster="assets/hero.jpg" muted playsinline preload="auto"></video><button class="vplay" id="vp" type="button">Open the box</button></div></div>'+
+ '<div class="story"><div class="stage" id="stage"><div class="stack" id="stack" role="button" aria-label="Tap to open the box">'+layers+'</div><div class="stagehint" id="sh">Tap the box to open it</div></div>'+CATS.map(row).join('')+'</div>'+
+ '<div class="formwrap"><h2>Write to us</h2><form id="f" novalidate>'+
+ '<label for="n">Name</label><input id="n" autocomplete="name"><label for="e">Email</label><input id="e" type="email" autocomplete="email">'+
+ '<label for="c">Company</label><input id="c" autocomplete="organization"><label for="m">What are you packing?</label><textarea id="m" rows="3"></textarea>'+
+ '<input class="hp" id="w" tabindex="-1" aria-hidden="true" autocomplete="off"><button class="go" type="submit">Send enquiry</button><div class="ok" id="ok" hidden></div></form></div>'+
+ '<div class="foot"><b>Box Connect Mfg</b>Bhiwandi, Maharashtra<br>'+MAIL+'<br>Made on order</div>';
+document.getElementById('out').appendChild(P);
+
+/* form */
+document.getElementById('f').addEventListener('submit',function(e){
+ e.preventDefault();var ok=document.getElementById('ok');if(document.getElementById('w').value)return;
+ var n=document.getElementById('n').value.trim(),m=document.getElementById('e').value.trim();
+ ok.textContent=(n&&/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(m))?'Preview only. On the live site this goes to '+MAIL+'. Thank you, '+n+'.':'Please add your name and a valid email.';ok.hidden=false;
+});
+/* hero video: plays once when seen, tap to replay */
+var vid=document.getElementById('vid'),hv=document.getElementById('hv'),vp=document.getElementById('vp');
+function play(){hv.currentTime=0;vid.classList.add('playing');var q=hv.play();if(q&&q.catch)q.catch(function(){vid.classList.remove('playing')})}
+hv.addEventListener('ended',function(){vid.classList.remove('playing');vp.textContent='Open again'});
+vid.addEventListener('click',play);
+if('IntersectionObserver' in window){var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting&&!reduce){io.disconnect();setTimeout(play,500)}})},{threshold:.6});io.observe(vid)}
+
+/* story: the photo follows whichever category sits in the reading zone, in both scroll directions */
+var stack=document.getElementById('stack'),stage=document.getElementById('stage'),sh=document.getElementById('sh'),
+    sls=stack.querySelectorAll('.sl'),rows=P.querySelectorAll('.srow'),pick=CATS.map(function(){return 0}),curI=0,openT=null;
+function showLayer(i,j){sls.forEach(function(l){l.classList.toggle('act',+l.dataset.i===i&&+l.dataset.j===j)})}
+function setHint(i){sh.textContent=piece(i,pick[i])?'Tap the box to open it':'Photo coming'}
+function setActive(i){
+ curI=i;rows.forEach(function(r,k){r.classList.toggle('act',k===i)});
+ showLayer(i,pick[i]);stack.classList.remove('on');setHint(i);
+}
+function pickRow(){
+ if(!rows.length)return;
+ var st=stage.getBoundingClientRect(),ref=st.bottom+(window.innerHeight-st.bottom)*0.35,best=-1;
+ rows.forEach(function(r,k){var b=r.getBoundingClientRect();if(b.top<=ref&&b.bottom>ref)best=k});
+ if(best<0){best=rows[0].getBoundingClientRect().top>ref?0:rows.length-1}
+ if(best!==curI)setActive(best);
+}
+var tick=false;
+function onScroll(){if(tick)return;tick=true;requestAnimationFrame(function(){tick=false;pickRow()})}
+window.addEventListener('scroll',onScroll,{passive:true});window.addEventListener('resize',onScroll);
+stack.addEventListener('click',function(){if(piece(curI,pick[curI]))stack.classList.toggle('on')});
+rows.forEach(function(r,i){
+ r.querySelectorAll('.th').forEach(function(b){b.addEventListener('click',function(){
+  var j=+b.dataset.j;pick[i]=j;
+  r.querySelectorAll('.th').forEach(function(x){x.setAttribute('aria-current',x===b?'true':'false')});
+  curI=i;rows.forEach(function(q,k){q.classList.toggle('act',k===i)});
+  showLayer(i,j);stack.classList.remove('on');setHint(i);
+  clearTimeout(openT);if(piece(i,j)&&!reduce)openT=setTimeout(function(){stack.classList.add('on')},500);
+ })});
+ r.querySelector('.lk').addEventListener('click',function(){
+  var m=document.getElementById('m');m.value='I am interested in: '+CATS[i].t+'.';
+  setTimeout(function(){document.getElementById('f').scrollIntoView({behavior:reduce?'auto':'smooth',block:'center'});m.focus({preventScroll:true})},60);
+ });
+});
+pickRow();
+
+</script>
