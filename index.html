@@ -1,15 +1,17 @@
 <meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Box Connect Mfg</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,wght@0,500;1,500&family=Jost:wght@400;500&display=swap">
 <style>
 /* Scroll story: hero video, then a photo that stays put while the category list scrolls past it. Each category carries a strip of its pieces. */
-:root{--sbg:#101214;color-scheme:dark}
+:root{--sbg:#E6E1DA}
 *{box-sizing:border-box}
 body{margin:0;background:var(--sbg);
-  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:12px 40px}
+  padding-left:env(safe-area-inset-left,0px);padding-right:env(safe-area-inset-right,0px)}
+@media (min-width:600px){body{padding-block:32px}.phone{box-shadow:0 20px 50px -20px rgba(29,22,24,.35)}}
 .phone{--bg:#F2F0EC;--ink:#1D1618;--mute:#6C6366;--acc:#6B1F34;--line:#DAD5CF;--btn:#6B1F34;--btnfg:#FFFFFF;--r:12px;--soon:#DDD8D1;--disp:'Bodoni Moda',serif;--body:'Jost',sans-serif;
-  width:min(100%,390px);margin:0 auto;border-radius:30px;overflow:hidden;overflow:clip;border:1px solid #333;position:relative;background:var(--bg);color:var(--ink);font:400 15px/1.55 var(--body)}
+  width:min(100%,480px);margin:0 auto;overflow:hidden;overflow:clip;position:relative;background:var(--bg);color:var(--ink);font:400 15px/1.55 var(--body)}
 .phone *{min-width:0;box-sizing:border-box}
 .phone h1,.phone h2,.phone h3,.phone p{margin:0}
 .phone input,.phone textarea{font:inherit;width:100%;color:inherit;border-radius:0}
