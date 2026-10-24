@@ -28,7 +28,7 @@ body{margin:0;background:var(--sbg);
 
 .story{position:relative;margin-top:30px}
 .stage{position:sticky;top:calc(env(safe-area-inset-top,0px) + 8px);z-index:5;background:var(--bg);padding:8px 0 12px;display:grid;justify-items:center;gap:8px}
-.stack{position:relative;width:60%;aspect-ratio:4/5;border-radius:12px;overflow:hidden;box-shadow:0 18px 24px -10px rgba(29,22,24,.4);background:var(--soon);cursor:pointer}
+.stack{position:relative;width:64%;aspect-ratio:1/1;border-radius:12px;overflow:hidden;box-shadow:0 18px 24px -10px rgba(29,22,24,.4);background:var(--soon);cursor:pointer}
 .sl{position:absolute;inset:0;opacity:0;visibility:hidden;transition:opacity .45s,visibility 0s linear .45s}
 .sl.act{opacity:1;visibility:visible;transition:opacity .45s,visibility 0s}
 .sl img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:opacity .8s}
@@ -64,17 +64,17 @@ body{margin:0;background:var(--sbg);
 
 <script>
 var CATS=[
- {t:'MDF boxes',d:'Rigid boxes for luxury retail.',o:['Lid and base','Hinged lid','Drawer style','Magnetic closure'],p:[{a:'assets/t1c.jpg',b:'assets/t1o.jpg'}]},
- {t:'Premium boxes',d:'Gift and presentation boxes where the finish matters.',o:['Rigid gift box','Ribbon tied','Foil stamped','Sleeve and tray'],p:[{a:'assets/t2c.jpg',b:'assets/t2o.jpg'}]},
- {t:'Jewellery boxes',d:'Rings, sets and watches, held the way they deserve.',o:['Ring box','Necklace box','Earring box','Watch box','Full set box'],p:[]},
- {t:'Display props',d:'Busts and stands for showrooms.',o:['Busts','Necklace stands','Ring and earring stands','Counter trays','Window pieces'],p:[]},
+ {t:'MDF boxes',d:'Rigid boxes for luxury retail.',o:['Lid and base','Hinged lid','Drawer style','Magnetic closure'],p:[{a:'assets/t1c.jpg',b:'assets/t1o.jpg'},{a:'assets/t1c2.jpg',b:'assets/t1o2.jpg'}]},
+ {t:'Premium boxes',d:'Gift and presentation boxes where the finish matters.',o:['Rigid gift box','Ribbon tied','Foil stamped','Sleeve and tray'],p:[{a:'assets/t2c.jpg',b:'assets/t2o.jpg'},{a:'assets/t2c2.jpg',b:'assets/t2o2.jpg'}]},
+ {t:'Jewellery boxes',d:'Rings, sets and watches, held the way they deserve.',o:['Ring box','Necklace box','Earring box','Watch box','Full set box'],p:[{a:'assets/t3c1.jpg',b:'assets/t3o1.jpg'},{a:'assets/t3c2.jpg',b:'assets/t3o2.jpg'}]},
+ {t:'Display props',d:'Busts and stands for showrooms.',o:['Busts','Necklace stands','Ring and earring stands','Counter trays','Window pieces'],p:[{a:'assets/t4c1.jpg'},{a:'assets/t4c2.jpg'},{a:'assets/t4c3.jpg'}]},
  {t:'Cardboard boxes',d:'Strong cartons, made in large runs.',o:['Corrugated cartons','Shipping boxes','Garment boxes','Printed cartons'],p:[]},
  {t:'Printed and covered',d:'Paper-wrapped and printed, with plastic covering where needed.',o:['Paper wrapped','Printed','Plastic covered','Matt finish','Gloss finish'],p:[]}
 ];
 var N=6,MAIL='sales@boxconnectmfg.co.in',reduce=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
 function piece(i,j){return CATS[i].p[j]||null}
 function layer(i,j){var p=piece(i,j),c=CATS[i];
- return '<div class="sl'+(i===0&&j===0?' act':'')+'" data-i="'+i+'" data-j="'+j+'">'+(p?'<img class="la" src="'+p.a+'" alt="'+c.t+', closed"><img class="lb" src="'+p.b+'" alt="'+c.t+', open">':'<span class="soonlbl">Photo coming</span>')+'</div>'}
+ return '<div class="sl'+(i===0&&j===0?' act':'')+'" data-i="'+i+'" data-j="'+j+'">'+(p?'<img class="la" src="'+p.a+'" alt="'+c.t+(p.b?', closed':'')+'">'+(p.b?'<img class="lb" src="'+p.b+'" alt="'+c.t+', open">':''):'<span class="soonlbl">Photo coming</span>')+'</div>'}
 var layers='';CATS.forEach(function(c,i){for(var j=0;j<N;j++)layers+=layer(i,j)});
 function row(c,i){
  var th='';for(var j=0;j<N;j++){var p=piece(i,j);th+='<button class="th" type="button" data-j="'+j+'" aria-label="'+c.t+', piece '+(j+1)+'"'+(j===0?' aria-current="true"':'')+'>'+(p?'<img src="'+p.a+'" alt="">':'')+'</button>'}
@@ -107,7 +107,7 @@ if('IntersectionObserver' in window){var io=new IntersectionObserver(function(es
 var stack=document.getElementById('stack'),stage=document.getElementById('stage'),sh=document.getElementById('sh'),
     sls=stack.querySelectorAll('.sl'),rows=P.querySelectorAll('.srow'),pick=CATS.map(function(){return 0}),curI=0,openT=null;
 function showLayer(i,j){sls.forEach(function(l){l.classList.toggle('act',+l.dataset.i===i&&+l.dataset.j===j)})}
-function setHint(i){sh.textContent=piece(i,pick[i])?'Tap the box to open it':'Photo coming'}
+function setHint(i){var p=piece(i,pick[i]);sh.textContent=p?(p.b?'Tap the box to open it':' '):'Photo coming'}
 function setActive(i){
  curI=i;rows.forEach(function(r,k){r.classList.toggle('act',k===i)});
  showLayer(i,pick[i]);stack.classList.remove('on');setHint(i);
@@ -122,14 +122,14 @@ function pickRow(){
 var tick=false;
 function onScroll(){if(tick)return;tick=true;requestAnimationFrame(function(){tick=false;pickRow()})}
 window.addEventListener('scroll',onScroll,{passive:true});window.addEventListener('resize',onScroll);
-stack.addEventListener('click',function(){if(piece(curI,pick[curI]))stack.classList.toggle('on')});
+stack.addEventListener('click',function(){var p=piece(curI,pick[curI]);if(p&&p.b)stack.classList.toggle('on')});
 rows.forEach(function(r,i){
  r.querySelectorAll('.th').forEach(function(b){b.addEventListener('click',function(){
   var j=+b.dataset.j;pick[i]=j;
   r.querySelectorAll('.th').forEach(function(x){x.setAttribute('aria-current',x===b?'true':'false')});
   curI=i;rows.forEach(function(q,k){q.classList.toggle('act',k===i)});
   showLayer(i,j);stack.classList.remove('on');setHint(i);
-  clearTimeout(openT);if(piece(i,j)&&!reduce)openT=setTimeout(function(){stack.classList.add('on')},500);
+  clearTimeout(openT);if(piece(i,j)&&piece(i,j).b&&!reduce)openT=setTimeout(function(){stack.classList.add('on')},500);
  })});
  r.querySelector('.lk').addEventListener('click',function(){
   var m=document.getElementById('m');m.value='I am interested in: '+CATS[i].t+'.';
